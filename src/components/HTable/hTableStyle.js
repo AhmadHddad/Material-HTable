@@ -1,10 +1,5 @@
-import { createStyles, makeStyles } from "@mui/styles";
+const { makeStyles } = require("@mui/styles");
 
-const useHTableStyle = makeStyles((theme) =>
-  createStyles({
-    root:{
-    }
-  })
-);
-
-export default useHTableStyle;
+export default makeStyles(theme => ({
+  disabled: { pointerEvents: "none", cursor: "not-allowed", userSelect: 'none' }
+}));
