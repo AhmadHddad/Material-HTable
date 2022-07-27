@@ -1,21 +1,20 @@
-import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from "@mui/material";
-import { conditionalReturn } from "utils";
+import { conditionalReturn, returnObjFromFunc, toObject } from "utils";
 
-export default function HTableHead({ heads, numSelected, rowCount, onSelectAllClick, sortable, onSort, orderBy, order, selectable }) {
+export default function HTableHead({ components, heads, numSelected, headRowProps, tableHeadProps, rowCount, selectAllOptions, onSelectAllClick, sortable, onSort, orderBy, order, selectable, tableSortLabelProps, headCellProps }) {
+    const { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } = components;
+    const { selectAllCheckboxProps, selectAllCellProps } = toObject(selectAllOptions)
 
     return (
-        <TableHead>
-            <TableRow>
+        <TableHead {...toObject(tableHeadProps)}>
+            <TableRow {...toObject(headRowProps)}>
                 {conditionalReturn(selectable,
-                    <TableCell padding="checkbox">
+                    <TableCell padding="checkbox" {...toObject(selectAllCellProps)}>
                         <Checkbox
                             color="primary"
                             indeterminate={numSelected > 0 && numSelected < rowCount}
                             checked={rowCount > 0 && numSelected === rowCount}
                             onChange={onSelectAllClick}
-                            inputProps={{
-                                'aria-label': 'select all desserts',
-                            }}
+                            {...toObject(selectAllCheckboxProps)}
                         />
                     </TableCell>)}
                 {heads.map((headCell) => (
@@ -24,11 +23,13 @@ export default function HTableHead({ heads, numSelected, rowCount, onSelectAllCl
                         align={headCell?.align}
                         padding={headCell?.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell?.id ? order : false}
+                        {...returnObjFromFunc(headCellProps, headCell)}
                     >
                         {sortable ? <TableSortLabel
                             active={orderBy === headCell?.id}
                             direction={orderBy === headCell?.id ? order : 'asc'}
                             onClick={() => onSort?.(headCell?.id)}
+                            {...returnObjFromFunc(tableSortLabelProps, headCell)}
                         >
                             {headCell?.label}
                         </TableSortLabel> : headCell?.label}
