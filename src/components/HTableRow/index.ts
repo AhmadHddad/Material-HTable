@@ -1,31 +1,63 @@
-import {TableCellBaseProps, TableRowProps} from "@mui/material";
-import {HTableId} from "components/HTable";
+import {
+    CheckboxProps,
+    IconButtonProps,
+    SvgIconProps,
+    TableCellProps,
+    TableRowProps
+} from "@mui/material";
+import {IColor, IHComponents, HTableId} from "components/HTable";
 import {MouseEventHandler} from "react";
 
-export type ICollapseOptios = {
-    collapseDefaultState: boolean;
-    openedIcon: JSX.Element;
-    closedIcon: JSX.Element;
-    onOpen: (e: MouseEventHandler | undefined, id: HTableId, row: ITableRow) => void;
-    isOpen: boolean;
+export type IHTableCollapseRow = {
+    component: JSX.Element;
+    rowProps: TableRowProps | (({row, isRowSelected}: {row: IHTableRow; isRowSelected: boolean}) => TableCellProps);
+    cellProps:
+        | TableCellProps
+        | ((row: IHTableRow) => TableCellProps);
 };
 
-export type IHTableCollapseRow = IRowCell & {options: ICollapseOptios};
-
-export type ITableRow = {
+export type IHTableRow = {
     id: HTableId;
     cells: IRowCell[];
-    props?: TableRowProps;
+    props?: TableRowProps | ((thisRow: IHTableRow) => TableRowProps);
     collapseRow?: IHTableCollapseRow;
-    selectable?: boolean;
+};
+
+export type ICollapseOptions = {
+    collapseDefaultState: boolean;
+    onOpen?: MouseEventHandler | undefined;
+    isOpen?: boolean;
+    collapseBtnProps?: IconButtonProps | ((row: IHTableRow) => IconButtonProps);
+    arrowDownKeysProps?: SvgIconProps;
+    arrowUpKeysProps?:
+        | SvgIconProps
+        | (({row, isCollapseOpen}: {row: IHTableRow; isCollapseOpen: boolean}) => SvgIconProps);
+    collapseBtnTableCellProps?: TableCellProps | ((row: IHTableRow) => TableCellProps);
+};
+
+export type ISelectionOptions = {
+    checkboxProps?: CheckboxProps | ((row: IHTableRow) => CheckboxProps);
+    checkboxTableCellProps?: TableCellProps | ((row: IHTableRow) => TableCellProps);
 };
 
 export interface HTableRowProps {
-    row: ITableRow;
+    row: IHTableRow;
     isRowSelected?: boolean;
-    onRowClicked?: (event: MouseEventHandler | undefined, row: ITableRow) => void;
+    onRowClicked?: (event: MouseEventHandler | undefined, row: IHTableRow) => void;
+    components: IHComponents;
+    color?: IColor;
+    selectable?: boolean;
+    index: HTableId;
+    collapseOptions?: ICollapseOptions | ((thisRow: IHTableRow) => ICollapseOptions);
+    selectOptoins?: ISelectionOptions;
 }
 
-export type IRowCell = {id: HTableId; component: JSX.Element; props: TableCellBaseProps};
+export type IRowCell = {
+    id: HTableId;
+    component: JSX.Element;
+    props?:
+        | TableCellProps
+        | (({row, cell}: {row: IHTableRow; cell: IRowCell}) => TableCellProps)
+};
 
 export declare const HTableRow: (props: HTableRowProps) => JSX.Element;
