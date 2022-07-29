@@ -1,14 +1,40 @@
-import { TableCellProps } from "@mui/material";
-import { HTableId } from "components/HTable";
+import {
+    CheckboxProps,
+    TableCellProps,
+    TableHeadProps,
+    TableRowProps,
+    TableSortLabelProps
+} from "@mui/material";
+import {SwitchBaseProps} from "@mui/material/internal/SwitchBase";
+import {IColor, IHComponents, HTableId} from "components/HTable";
 
 export type IHTableHeadCell = {
     id: HTableId;
-    numeric?: boolean;
+    component: JSX.Element;
+    align?: "inherit" | "left" | "center" | "right" | "justify";
     disablePadding?: boolean;
-    label: string;
-  };
-  
-  export type IHtableHeadOptoins = {
-    headCellProps: TableCellProps;
-  };
-  
+    sortLabelProps?: (thisCell: IHTableHeadCell) => TableSortLabelProps | TableSortLabelProps;
+    props?: (thisCell: IHTableHeadCell) => TableCellProps | TableCellProps;
+};
+
+export type ISelectAllOptions = {
+    selectAllCheckboxProps?: CheckboxProps;
+    selectAllCellProps?: TableCellProps;
+};
+
+export type HTableHeadProps = {
+    components: IHComponents;
+    color?: IColor;
+    heads: IHTableHeadCell[];
+    numSelected?: number;
+    headProps?: TableHeadProps;
+    headRowProps?: TableRowProps;
+    rowCount?: number;
+    selectAllOptions?: ISelectAllOptions;
+    onSelectAllClick?: SwitchBaseProps["onChange"];
+    sortable?: boolean;
+    onSort?: (headCellId: HTableId) => void;
+    orderBy?: HTableId;
+    order?: "asc" | "desc";
+    selectable?: boolean;
+};
