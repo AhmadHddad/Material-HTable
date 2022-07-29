@@ -1,6 +1,6 @@
-import { CircularProgress, Grid } from "@mui/material";
 
-export default function HTableLoadingView(props) {
+export default function HTableLoadingView({components}) {
+    const { CircularProgress, Grid }  = components;
     return (<Grid
         container
         direction="row"
