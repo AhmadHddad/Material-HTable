@@ -55,7 +55,7 @@ export const allComponents = {
 
 function HTable({
     heads,
-    loaderView,
+    loadingView,
     selectable,
     emptyViewText,
     selectOptoins,
@@ -142,7 +142,7 @@ function HTable({
     const searchBar = conditionalReturn(searchable, <SearchBar components={components} searchOptions={setSearchTextValue} searchText={searchText} setSearchTextValue={setSearchTextValue} />)
 
     const renderLoaderOrEmptyView = () => {
-        const LoaderView = loaderView || <HTableLoadingView components={components}/>;
+        const LoaderView = loadingView || <HTableLoadingView components={components}/>;
         const EmptyView = emptyView || <HTableEmptyView components={components} emptyViewText={emptyViewText} />;
         return (
             <>
