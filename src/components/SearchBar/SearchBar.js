@@ -2,7 +2,7 @@ import React from 'react';
 import { returnObjFromFunc, toObject } from 'utils';
 
 
-export default function SearchBar({ searchOptions, searchText, setSearchTextValue, components }) {
+export default function SearchBar({ searchOptions,color, searchText, setSearchTextValue, components }) {
     const { SearchIcon, Grid, TextField, IconButton, ClearIcon } = components;
     const {
         searchInputProps,
@@ -33,6 +33,7 @@ export default function SearchBar({ searchOptions, searchText, setSearchTextValu
                     <TextField
                         variant="standard"
                         placeholder={searchPlaceholder || "Search"}
+                        color={color}
                         onChange={e => setSearchTextValue(e.target.value)}
                         InputProps={{
                             startAdornment: (
