@@ -12,7 +12,6 @@ export type IHTableHeadCell = {
     id: HTableId;
     component: JSX.Element;
     align?: "inherit" | "left" | "center" | "right" | "justify";
-    disablePadding?: boolean;
     sortLabelProps?: (thisCell: IHTableHeadCell) => TableSortLabelProps | TableSortLabelProps;
     props?: (thisCell: IHTableHeadCell) => TableCellProps | TableCellProps;
 };
