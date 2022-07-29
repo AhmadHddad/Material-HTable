@@ -1,18 +1,24 @@
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Checkbox, Collapse, IconButton, TableCell, TableRow } from '@mui/material';
+
+import { IconButton } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import * as React from 'react';
-import { conditionalReturn, isNullOrUndefined, returnObjFromFunc, toObject, uuidv4 } from "../../utils";
+import { conditionalReturn, isNullOrUndefined, returnObjFromFunc, toObject } from "../../utils";
 
-export default function HTableRow({ row, onRowClicked, selectable, index, collapseOptions, selectOptoins, isRowSelected }) {
+const useStyle = makeStyles(theme => ({
+    collapseRow: {
+        paddingBottom: "0 !important"
+        , paddingTop: "0 !important"
+    }
+}));
 
-    const { collapseDefaultState, openedIcon, closedIcon, onOpen, isOpen, collapseBtnProps, arrowKeysProps, collapseBtnTableCellProps } = toObject(collapseOptions)
+export default function HTableRow({ components, color, row, onRowClicked, selectable, index, collapseOptions, rowOptions, selectOptoins, isRowSelected }) {
+    const classes = useStyle()
+    const { Checkbox, Collapse, TableCell, TableRow, KeyboardArrowUpIcon, KeyboardArrowDownIcon } = components;
+    const { collapseDefaultState, onOpen, isOpen, collapseBtnProps, arrowDownKeysProps, arrowUpKeysProps, collapseBtnTableCellProps } = toObject(collapseOptions)
     const { checkboxProps, checkboxTableCellProps } = toObject(selectOptoins);
     const { id, cells, collapseRow } = toObject(row)
+    const { rowProps, } = toObject(rowOptions)
     const [open, setOpen] = React.useState(!!collapseDefaultState);
-
-    const CollapseOpendIcon = openedIcon || <KeyboardArrowUpIcon {...toObject(arrowKeysProps)} />
-    const CollapseClosedIcon = closedIcon || <KeyboardArrowDownIcon {...toObject(arrowKeysProps)} />
 
     function onCollapseOpen(e) {
         e.stopPropagation();
@@ -29,14 +35,17 @@ export default function HTableRow({ row, onRowClicked, selectable, index, collap
             <TableRow
                 aria-checked={isRowSelected}
                 tabIndex={-1}
+                sx={{ '& > *': { borderBottom: 'unset' } }}
                 key={id}
                 id={id}
                 selected={isRowSelected}
-                onClick={(event) => onRowClicked(event, row)}>
+                onClick={(event) => onRowClicked(event, row)}
+                {...returnObjFromFunc(rowProps, row)}
+            >
                 {conditionalReturn(selectable,
                     <TableCell padding="checkbox" {...returnObjFromFunc(checkboxTableCellProps, row)}>
                         <Checkbox
-                            color="primary"
+                            color={color}
                             checked={isRowSelected}
                             inputProps={{
                                 'aria-labelledby': labelId,
@@ -49,6 +58,7 @@ export default function HTableRow({ row, onRowClicked, selectable, index, collap
                         key={cell.id || i}
                         component="th"
                         scope="row"
+                        padding="none"
                         {...returnObjFromFunc(cell?.props, row, cell)}>
                         {cell?.component}
                     </TableCell>
@@ -61,12 +71,14 @@ export default function HTableRow({ row, onRowClicked, selectable, index, collap
                             onClick={onCollapseOpen}
                             {...returnObjFromFunc(collapseBtnProps, row)}
                         >
-                            {isCollapseOpen ? CollapseOpendIcon : CollapseClosedIcon}
+                            {isCollapseOpen ? <KeyboardArrowUpIcon {...returnObjFromFunc(arrowUpKeysProps, { row, isCollapseOpen })} /> : <KeyboardArrowDownIcon {...returnObjFromFunc(arrowDownKeysProps, { row, isCollapseOpen })} />}
                         </IconButton>
                     </TableCell>)}
             </TableRow>
-            {conditionalReturn(collapsable, <TableRow  {...(returnObjFromFunc(collapseRow?.rowPorps, row))}>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6} {...returnObjFromFunc(collapseRow?.cellProps, row)}>
+            {conditionalReturn(collapsable, <TableRow
+                selected={isRowSelected}
+                {...(returnObjFromFunc(collapseRow?.props, { row, isRowSelected }))}>
+                <TableCell className={classes.collapseRow} colSpan={6} {...returnObjFromFunc(collapseRow?.cellProps, row)}>
                     <Collapse in={isCollapseOpen} timeout="auto" unmountOnExit>
                         {collapseRow?.component}
                     </Collapse>
