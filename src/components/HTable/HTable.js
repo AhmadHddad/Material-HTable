@@ -259,7 +259,7 @@ HTable.propTypes = {
         align: PropTypes.oneOf(["inherit", "left", "center", "right", "justify"]),
         props: PropTypes.object,
         sortLabelProps: PropTypes.object,
-        component: PropTypes.any
+        component: PropTypes.element
     })),
     emptyViewText: PropTypes.string,
     selectOptoins: PropTypes.shape({ defaultSelectedIds: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])) }),
@@ -291,13 +291,13 @@ HTable.propTypes = {
         cells: PropTypes.arrayOf(PropTypes.shape(
             {
                 id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-                component: PropTypes.any,
+                component: PropTypes.element,
                 props: PropTypes.object
             }
         )),
         props: PropTypes.object,
         collapseRow: PropTypes.shape({
-            component: PropTypes.any,
+            component: PropTypes.element,
             rowPorps: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
             cellProps: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
         })
@@ -307,8 +307,8 @@ HTable.propTypes = {
     tableContainerProps: PropTypes.object,
     isPaginate: PropTypes.bool,
     searchable: PropTypes.bool,
-    emptyView: PropTypes.any,
-    loadingView: PropTypes.any,
+    emptyView: PropTypes.element,
+    loadingView: PropTypes.element,
     searchOptions: PropTypes.objectOf(PropTypes.shape({
         defaultSearchText: PropTypes.string,
         searchInputProps: PropTypes.object,
@@ -323,7 +323,7 @@ HTable.propTypes = {
         rowsPerPage: PropTypes.number,
         rowsPerPageOptions: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number), PropTypes.arrayOf(PropTypes.objectOf(PropTypes.shape({ value: PropTypes.number, label: PropTypes.string })))]),
         classes: PropTypes.object,
-        component: PropTypes.any,
+        component: PropTypes.element,
         onPageChange: PropTypes.func
     })),
     headOptions: PropTypes.shape({
