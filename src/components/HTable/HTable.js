@@ -1,4 +1,3 @@
-import "./hTableSyle.css";
 import * as React from "react";
 import {
     TableContainer as MTableContainer,
