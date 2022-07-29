@@ -57,7 +57,7 @@ export default function HTableRow({ components, color, row, onRowClicked, select
                         key={cell.id || i}
                         component="th"
                         scope="row"
-                        padding="none"
+                        padding={selectable ? "none" : "normal"}
                         {...returnObjFromFunc(cell?.props, { row, cell })}>
                         {cell?.component}
                     </TableCell>
