@@ -2,7 +2,7 @@ import React from 'react';
 import { returnObjFromFunc, toObject } from 'utils';
 
 
-export default function SearchBar({ searchOptions,color, searchText, setSearchTextValue, components }) {
+export default function SearchBar({ searchOptions, color, searchText, setSearchTextValue, components }) {
     const { SearchIcon, Grid, TextField, IconButton, ClearIcon } = components;
     const {
         searchInputProps,
@@ -19,6 +19,7 @@ export default function SearchBar({ searchOptions,color, searchText, setSearchTe
             <form
                 onSubmit={e => {
                     e.preventDefault();
+                    e.stopPropagation();
                     onSearchClick?.(searchText);
                 }}
             >
@@ -27,7 +28,7 @@ export default function SearchBar({ searchOptions,color, searchText, setSearchTe
                     item
                     padding={1}
                     justifyContent={"flex-start"}
-                    {...searchInputContainerProps}
+                    {...toObject(searchInputContainerProps)}
                 >
                     <TextField
                         variant="standard"
@@ -46,7 +47,7 @@ export default function SearchBar({ searchOptions,color, searchText, setSearchTe
                                     }}
                                     {...returnObjFromFunc(searchBtnProps, searchText)}
                                 >
-                                   <SearchIcon fontSize="small" />
+                                    <SearchIcon fontSize="small" />
                                 </IconButton>
                             ),
                             endAdornment: (
@@ -56,7 +57,7 @@ export default function SearchBar({ searchOptions,color, searchText, setSearchTe
                                     size="small"
                                     onClick={() => {
                                         setSearchTextValue("");
-                                        onClearSearch?.();
+                                        onClearSearch?.(searchText);
                                     }}
                                     style={{ visibility: searchText ? "visible" : "hidden" }}
                                     {...returnObjFromFunc(clearBtnProps, searchText)}
