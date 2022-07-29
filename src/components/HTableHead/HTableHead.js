@@ -22,7 +22,7 @@ export default function HTableHead({ color, components, heads, numSelected, head
                     <TableCell
                         key={headCell?.id}
                         align={headCell?.align}
-                        padding={headCell?.disablePadding ? 'none' : 'normal'}
+                        padding={selectable ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell?.id ? order : false}
                         {...returnObjFromFunc(headCell.props, headCell)}
                     >
