@@ -60,13 +60,12 @@ function HTable({
     emptyViewText,
     selectOptoins,
     rows,
-    rowOptions,
     isLoading,
     disabled,
     tableContainerProps,
     tableBodyprops,
     sortable,
-    addPagination,
+    isPaginate,
     collapseOptions,
     headOptions,
     searchable,
@@ -78,7 +77,6 @@ function HTable({
     onSort,
     orderBy,
     order,
-    cardProps,
     onSelectAllClick,
     onRowSelected
 }) {
@@ -104,7 +102,7 @@ function HTable({
     const [searchText, setSearchTextValue] = React.useState(defaultSearchText || "");
     const [selected, setSelected] = React.useState(toArray(defaultSelectedIds));
 
-    const totalCount = totalItems || rows?.length;
+    const totalCount = totalItems ?? rows?.length ?? 0;
 
     const handleSelectAllClick = event => {
         let updatedSelected = [];
@@ -142,7 +140,7 @@ function HTable({
     const searchBar = conditionalReturn(searchable, <SearchBar components={components} searchOptions={setSearchTextValue} searchText={searchText} setSearchTextValue={setSearchTextValue} />)
 
     const renderLoaderOrEmptyView = () => {
-        const LoaderView = loadingView || <HTableLoadingView components={components}/>;
+        const LoaderView = loadingView || <HTableLoadingView components={components} />;
         const EmptyView = emptyView || <HTableEmptyView components={components} emptyViewText={emptyViewText} />;
         return (
             <>
@@ -167,7 +165,7 @@ function HTable({
 
     return (
         <TableContainer
-            className={classNames({ [classes.disabled]: disabled })} ref={onRef} {...toObject(cardProps)}
+            className={classNames({ [classes.disabled]: disabled })} ref={onRef}
             component={Card}
             {...returnObjFromFunc(tableContainerProps)}
         >
@@ -187,7 +185,7 @@ function HTable({
                             order={order}
                             orderBy={orderBy}
                             onSort={onSort}
-                            rowCount={totalCount ?? 0}
+                            rowCount={totalCount}
                             selectable={selectable}
                             {...toObject(headOptions)}
                         />
@@ -196,7 +194,6 @@ function HTable({
                                 const isRowSelected = isSelected(row.id);
                                 return (
                                     <HTableRow
-                                        rowOptions={rowOptions}
                                         components={components}
                                         selectOptoins={selectOptoins}
                                         collapseOptions={collapseOptions}
@@ -213,7 +210,7 @@ function HTable({
                         </TableBody>
                     </Table>
                 </>)}
-            {addPagination && (
+            {isPaginate && (
                 <TablePagination
                     component={paginationComponent || "div"}
                     rowsPerPageOptions={rowsPerPageOptions}
@@ -248,7 +245,6 @@ HTable.defaultProps = {
             component: "Heading2"
         }
     ],
-    selectable: true,
     rows: [{
         id: 1,
         cells: [
@@ -258,50 +254,90 @@ HTable.defaultProps = {
         props: {},
         collapseRow: { component: <div>Collapse Row</div>, rowPorps: {}, cellProps: {} }
     }],
-    rowOptions: {},
-    isLoading: false,
-    tableContainerProps: {},
-    hover: false,
-    addPagination: false,
-    color: "primary",
-    headersOptions: {},
-    disabled: false,
-    searchable: true,
-    emptyView: null,
-    searchOptions: {},
-    components: {},
-    paginationOptions: {}
 };
 
 HTable.propTypes = {
-    headers: PropTypes.array,
-    rows: PropTypes.array,
+    heads: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        align: PropTypes.oneOf(["inherit", "left", "center", "right", "justify"]),
+        disablePadding: PropTypes.bool,
+        props: PropTypes.object,
+        sortLabelProps: PropTypes.object,
+        component: PropTypes.any
+    })),
+    emptyViewText: PropTypes.string,
+    selectOptoins: PropTypes.shape({ defaultSelectedIds: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])) }),
+    tableBodyprops: PropTypes.object,
+    sortable: PropTypes.bool,
+    collapseOptions: PropTypes.shape({
+        collapseDefaultState: PropTypes.bool,
+        onOpen: PropTypes.func,
+        isOpen: PropTypes.bool,
+        collapseBtnProps: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+        arrowDownKeysProps: PropTypes.object,
+        arrowUpKeysProps: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+    }),
+    tableProps: PropTypes.object,
+    color: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf(["primary"
+        , "secondary"
+        , "error"
+        , "info"
+        , "success"
+        , "warning"
+        , "default"])]),
+    orderBy: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    order: PropTypes.oneOf(["asc" | "desc"]),
+    onSelectAllClick: PropTypes.func,
+    onSort: PropTypes.func,
+    selectable: PropTypes.bool,
+    rows: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        cells: PropTypes.arrayOf(PropTypes.shape(
+            {
+                id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+                component: PropTypes.any,
+                props: PropTypes.object
+            }
+        )),
+        props: PropTypes.object,
+        collapseRow: PropTypes.shape({
+            component: PropTypes.any,
+            rowPorps: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+            cellProps: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
+        })
+    })),
     isLoading: PropTypes.bool,
     disabled: PropTypes.bool,
-    hover: PropTypes.bool,
     tableContainerProps: PropTypes.object,
-    paperProps: PropTypes.object,
-    emptyView: PropTypes.any,
-    addPagination: PropTypes.bool,
-    select: PropTypes.bool,
-    checkbox: PropTypes.bool,
-    paperEffect: PropTypes.bool,
+    isPaginate: PropTypes.bool,
     searchable: PropTypes.bool,
-    rowsPerPageOptions: PropTypes.array,
-    searchInputProps: PropTypes.object,
-    searchInputContainerProps: PropTypes.object,
-    headerTextProps: PropTypes.object,
-    rowsPerPage: PropTypes.number,
-    page: PropTypes.number,
-    totalItems: PropTypes.number,
-    onChangePage: PropTypes.func,
-    onClearSearch: PropTypes.func,
-    onRowClick: PropTypes.func,
-    headerIcon: PropTypes.any,
-    headerTitle: PropTypes.string,
-    color: PropTypes.string,
-    components: PropTypes.object,
-    onChangeRowsPerPage: PropTypes.func
-};
+    emptyView: PropTypes.any,
+    loadingView: PropTypes.any,
+    searchOptions: PropTypes.objectOf(PropTypes.shape({
+        defaultSearchText: PropTypes.string,
+        searchInputProps: PropTypes.object,
+        searchInputContainerProps: PropTypes.object,
+        onClearSearch: PropTypes.func,
+        onSearchClick: PropTypes.func
+    })),
+    paginationOptions: PropTypes.objectOf(PropTypes.shape({
+        totalItems: PropTypes.number,
+        pageNumber: PropTypes.number,
+        onRowsPerPageChange: PropTypes.func,
+        rowsPerPage: PropTypes.number,
+        rowsPerPageOptions: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number), PropTypes.arrayOf(PropTypes.objectOf(PropTypes.shape({ value: PropTypes.number, label: PropTypes.string })))]),
+        classes: PropTypes.object,
+        component: PropTypes.any,
+        onPageChange: PropTypes.func
+    })),
+    headOptions: PropTypes.shape({
+        headRowProps: PropTypes.object,
+        selectAllOptions: PropTypes.shape({
+            selectAllCheckboxProps: PropTypes.object,
+            selectAllCellProps: PropTypes.object,
+        }),
+        headProps: PropTypes.object,
+    })
+}
 
 export default HTable;
