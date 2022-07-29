@@ -14,6 +14,7 @@ import {
     TableBody as MTableBody,
     Grid as MGrid,
     Card as MCard,
+    CircularProgress,
     Collapse,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -45,6 +46,7 @@ export const allComponents = {
     TableCell: MTableCell,
     Grid: MGrid,
     SearchIcon,
+    CircularProgress,
     ClearIcon,
     Collapse,
     Checkbox: MCheckbox,
@@ -140,8 +142,8 @@ function HTable({
     const searchBar = conditionalReturn(searchable, <SearchBar components={components} searchOptions={setSearchTextValue} searchText={searchText} setSearchTextValue={setSearchTextValue} />)
 
     const renderLoaderOrEmptyView = () => {
-        const LoaderView = loaderView || <HTableLoadingView />;
-        const EmptyView = emptyView || <HTableEmptyView emptyViewText={emptyViewText} />;
+        const LoaderView = loaderView || <HTableLoadingView components={components}/>;
+        const EmptyView = emptyView || <HTableEmptyView components={components} emptyViewText={emptyViewText} />;
         return (
             <>
                 {searchBar}
