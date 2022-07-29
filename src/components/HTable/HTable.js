@@ -30,29 +30,6 @@ import SearchBar from "components/SearchBar/SearchBar";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-const headCells = [
-    {
-        id: "name",
-        align: "left",
-        disablePadding: true,
-        props: {},
-        sortLabelProps: {},
-        component: "Dessert (100g serving)"
-    },
-    {
-        id: "calories",
-        numeric: true,
-        disablePadding: true,
-        component: "Calories"
-    },
-    {
-        id: "collapseRow",
-        component: ""
-    }
-];
-
-
-
 export const allComponents = {
     Table: MTalbe,
     Card: MCard,
@@ -181,6 +158,11 @@ function HTable({
         })
     }
 
+    const allHeads = heads?.concat?.({
+        id: "-1",
+        component: ""
+    }) || []
+
     return (
         <TableContainer
             className={classNames({ [classes.disabled]: disabled })} ref={onRef} {...toObject(cardProps)}
@@ -194,12 +176,11 @@ function HTable({
                     {searchBar}
                     <Table  {...toObject(tableProps)}>
                         <HTableHead
-                            //color, components, heads, numSelected, headRowProps,selectAllOptions headProps, rowCount, , onSelectAllClick, sortable, onSort, orderBy, order, selectable
                             components={components}
                             numSelected={selected?.length ?? 0}
                             color={color}
                             onSelectAllClick={handleSelectAllClick}
-                            heads={heads}
+                            heads={allHeads}
                             sortable={sortable}
                             order={order}
                             orderBy={orderBy}
@@ -249,7 +230,22 @@ function HTable({
 }
 
 HTable.defaultProps = {
-    heads: headCells,
+    heads: [
+        {
+            id: 1,
+            align: "left",
+            disablePadding: true,
+            props: {},
+            sortLabelProps: {},
+            component: "Heading 1"
+        },
+        {
+            id: 2,
+            numeric: true,
+            disablePadding: true,
+            component: "Heading2"
+        }
+    ],
     selectable: true,
     rows: [{
         id: 1,
