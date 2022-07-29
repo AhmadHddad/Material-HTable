@@ -14,7 +14,6 @@ export default function SearchBar({ searchOptions,color, searchText, setSearchTe
         onSearchClick
     } = toObject(searchOptions);
 
-    const SearchIcn = <SearchIcon fontSize="small" />;
     return (
         <React.Fragment>
             <form
@@ -47,7 +46,7 @@ export default function SearchBar({ searchOptions,color, searchText, setSearchTe
                                     }}
                                     {...returnObjFromFunc(searchBtnProps, searchText)}
                                 >
-                                    {SearchIcn}
+                                   <SearchIcon fontSize="small" />
                                 </IconButton>
                             ),
                             endAdornment: (
