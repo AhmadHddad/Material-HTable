@@ -11,13 +11,12 @@ const useStyle = makeStyles(theme => ({
     }
 }));
 
-export default function HTableRow({ components, color, row, onRowClicked, selectable, index, collapseOptions, rowOptions, selectOptoins, isRowSelected }) {
+export default function HTableRow({ components, color, row, onRowClicked, selectable, index, collapseOptions, selectOptoins, isRowSelected }) {
     const classes = useStyle()
     const { Checkbox, Collapse, TableCell, TableRow, KeyboardArrowUpIcon, KeyboardArrowDownIcon } = components;
     const { collapseDefaultState, onOpen, isOpen, collapseBtnProps, arrowDownKeysProps, arrowUpKeysProps, collapseBtnTableCellProps } = returnObjFromFunc(collapseOptions, row)
     const { checkboxProps, checkboxTableCellProps } = toObject(selectOptoins);
-    const { id, cells, collapseRow } = toObject(row)
-    const { rowProps, } = toObject(rowOptions)
+    const { id, cells, collapseRow, props } = toObject(row)
     const [open, setOpen] = React.useState(!!collapseDefaultState);
 
     function onCollapseOpen(e) {
@@ -40,7 +39,7 @@ export default function HTableRow({ components, color, row, onRowClicked, select
                 id={id}
                 selected={isRowSelected}
                 onClick={(event) => onRowClicked(event, row)}
-                {...returnObjFromFunc(rowProps, row)}
+                {...returnObjFromFunc(props, row)}
             >
                 {conditionalReturn(selectable,
                     <TableCell padding="checkbox" {...returnObjFromFunc(checkboxTableCellProps, row)}>
@@ -59,7 +58,7 @@ export default function HTableRow({ components, color, row, onRowClicked, select
                         component="th"
                         scope="row"
                         padding="none"
-                        {...returnObjFromFunc(cell?.props, row, cell)}>
+                        {...returnObjFromFunc(cell?.props, { row, cell })}>
                         {cell?.component}
                     </TableCell>
                 ))}
@@ -78,7 +77,7 @@ export default function HTableRow({ components, color, row, onRowClicked, select
             {conditionalReturn(collapsable, <TableRow
                 selected={isRowSelected}
                 {...(returnObjFromFunc(collapseRow?.props, { row, isRowSelected }))}>
-                <TableCell className={classes.collapseRow} colSpan={6} {...returnObjFromFunc(collapseRow?.cellProps, row)}>
+                <TableCell className={classes.collapseRow} colSpan={6} {...returnObjFromFunc(collapseRow?.props, row)}>
                     <Collapse in={isCollapseOpen} timeout="auto" unmountOnExit>
                         {collapseRow?.component}
                     </Collapse>
