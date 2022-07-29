@@ -76,8 +76,8 @@ export default function HTableRow({ components, color, row, onRowClicked, select
             </TableRow>
             {conditionalReturn(collapsable, <TableRow
                 selected={isRowSelected}
-                {...(returnObjFromFunc(collapseRow?.props, { row, isRowSelected }))}>
-                <TableCell className={classes.collapseRow} colSpan={6} {...returnObjFromFunc(collapseRow?.props, row)}>
+                {...(returnObjFromFunc(collapseRow?.rowProps, { row, isRowSelected }))}>
+                <TableCell className={classes.collapseRow} colSpan={6} {...returnObjFromFunc(collapseRow?.cellProps, row)}>
                     <Collapse in={isCollapseOpen} timeout="auto" unmountOnExit>
                         {collapseRow?.component}
                     </Collapse>
