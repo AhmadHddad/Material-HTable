@@ -14,7 +14,7 @@ const useStyle = makeStyles(theme => ({
 export default function HTableRow({ components, color, row, onRowClicked, selectable, index, collapseOptions, rowOptions, selectOptoins, isRowSelected }) {
     const classes = useStyle()
     const { Checkbox, Collapse, TableCell, TableRow, KeyboardArrowUpIcon, KeyboardArrowDownIcon } = components;
-    const { collapseDefaultState, onOpen, isOpen, collapseBtnProps, arrowDownKeysProps, arrowUpKeysProps, collapseBtnTableCellProps } = toObject(collapseOptions)
+    const { collapseDefaultState, onOpen, isOpen, collapseBtnProps, arrowDownKeysProps, arrowUpKeysProps, collapseBtnTableCellProps } = returnObjFromFunc(collapseOptions, row)
     const { checkboxProps, checkboxTableCellProps } = toObject(selectOptoins);
     const { id, cells, collapseRow } = toObject(row)
     const { rowProps, } = toObject(rowOptions)
