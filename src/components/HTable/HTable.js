@@ -21,12 +21,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { conditionalReturn, returnObjFromFunc, toArray, toObject } from "../../utils";
-import HTableHead from "components/HTableHead/HTableHead";
-import HTableEmptyView from "components/HTableEmptyView/HTableEmptyView";
-import HTableLoadingView from "components/HTableLoadingView/HTableLoadingView";
+import HTableHead from "components/HTableHead";
+import HTableEmptyView from "components/HTableEmptyView";
+import HTableLoadingView from "components/HTableLoadingView";
 import useHTableStyle from "./hTableStyle";
-import HTableRow from "components/HTableRow/HTableRow";
-import SearchBar from "components/SearchBar/SearchBar";
+import HTableRow from "components/HTableRow";
+import SearchBar from "components/SearchBar";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
