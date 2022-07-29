@@ -116,6 +116,7 @@ function HTable({
     };
 
     const handleClick = (event, row) => {
+        if(!selectable) return;
         const rowId = row.id;
         const selectedIndex = selected.indexOf(rowId);
         let newSelected = [];
@@ -233,7 +234,6 @@ HTable.defaultProps = {
         {
             id: 1,
             align: "left",
-            disablePadding: true,
             props: {},
             sortLabelProps: {},
             component: "Heading 1"
@@ -241,7 +241,6 @@ HTable.defaultProps = {
         {
             id: 2,
             numeric: true,
-            disablePadding: true,
             component: "Heading2"
         }
     ],
@@ -260,7 +259,6 @@ HTable.propTypes = {
     heads: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         align: PropTypes.oneOf(["inherit", "left", "center", "right", "justify"]),
-        disablePadding: PropTypes.bool,
         props: PropTypes.object,
         sortLabelProps: PropTypes.object,
         component: PropTypes.any
