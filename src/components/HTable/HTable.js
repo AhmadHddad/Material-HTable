@@ -240,7 +240,6 @@ HTable.defaultProps = {
         },
         {
             id: 2,
-            numeric: true,
             component: "Heading2"
         }
     ],
