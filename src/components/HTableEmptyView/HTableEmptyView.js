@@ -1,6 +1,7 @@
-import { Grid } from "@mui/material";
 
-export default function HTableEmptyView({ emptyViewText }) {
+export default function HTableEmptyView({ emptyViewText, components }) {
+    const { Grid } = components;
+    
     return (<Grid
         container
         direction="row"
