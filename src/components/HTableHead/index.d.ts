@@ -37,3 +37,7 @@ export type HTableHeadProps = {
     order?: "asc" | "desc";
     selectable?: boolean;
 };
+
+ declare const HTableHead: (props: HTableHeadProps) => JSX.Element;
+
+ export default HTableHead

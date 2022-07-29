@@ -10,10 +10,10 @@ import {MouseEventHandler} from "react";
 
 export type IHTableCollapseRow = {
     component: JSX.Element;
-    rowProps: TableRowProps | (({row, isRowSelected}: {row: IHTableRow; isRowSelected: boolean}) => TableCellProps);
-    cellProps:
-        | TableCellProps
-        | ((row: IHTableRow) => TableCellProps);
+    rowProps:
+        | TableRowProps
+        | (({row, isRowSelected}: {row: IHTableRow; isRowSelected: boolean}) => TableCellProps);
+    cellProps: TableCellProps | ((row: IHTableRow) => TableCellProps);
 };
 
 export type IHTableRow = {
@@ -55,9 +55,9 @@ export interface HTableRowProps {
 export type IRowCell = {
     id: HTableId;
     component: JSX.Element;
-    props?:
-        | TableCellProps
-        | (({row, cell}: {row: IHTableRow; cell: IRowCell}) => TableCellProps)
+    props?: TableCellProps | (({row, cell}: {row: IHTableRow; cell: IRowCell}) => TableCellProps);
 };
 
-export declare const HTableRow: (props: HTableRowProps) => JSX.Element;
+declare const HTableRow: (props: HTableRowProps) => JSX.Element;
+
+export default HTableRow;

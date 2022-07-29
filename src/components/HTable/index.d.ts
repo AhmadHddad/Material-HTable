@@ -82,7 +82,6 @@ export interface HTableProps {
     };
 }
 
-export declare const HTableHead: (props: HTableProps) => JSX.Element;
 declare const HTable: (props: HTableProps) => JSX.Element;
 
 export default HTable;
