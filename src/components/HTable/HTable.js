@@ -21,12 +21,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { conditionalReturn, returnObjFromFunc, toArray, toObject } from "../../utils";
-import HTableHead from "components/HTableHead";
-import HTableEmptyView from "components/HTableEmptyView";
-import HTableLoadingView from "components/HTableLoadingView";
+import THead from "components/HTableHead";
+import HTEmptyView from "components/HTableEmptyView";
+import HTLoadingView from "components/HTableLoadingView";
 import useHTableStyle from "./hTableStyle";
-import HTableRow from "components/HTableRow";
-import SearchBar from "components/SearchBar";
+import TRow from "components/HTableRow";
+import SBar from "components/SearchBar";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
@@ -40,13 +40,18 @@ export const allComponents = {
     IconButton: MIconButton,
     TableRow: MTableRow,
     KeyboardArrowUpIcon,
+    HTableHead: THead,
+    HTableRow: TRow,
+    HTableEmptyView: HTEmptyView,
     KeyboardArrowDownIcon,
     TableHead: MTableHead,
+    HTableLoadingView: HTLoadingView,
     TableCell: MTableCell,
     Grid: MGrid,
     SearchIcon,
     CircularProgress,
     ClearIcon,
+    SearchBar: SBar,
     Collapse,
     Checkbox: MCheckbox,
     TableSortLabel: MTableSortLabel,
@@ -85,7 +90,7 @@ function HTable({
     const { defaultSelectedIds } = toObject(selectOptoins)
     const { defaultSearchText } = toObject(searchOptions);
     const components = Object.assign(allComponents, props.components);
-    const { Card, TableContainer, Table, TableBody, TablePagination } = components;
+    const { Card, SearchBar, HTableHead, HTableEmptyView, HTableLoadingView, HTableRow, TableContainer, Table, TableBody, TablePagination } = components;
 
     const {
         rowsPerPageOptions,
@@ -115,7 +120,7 @@ function HTable({
     };
 
     const handleClick = (event, row) => {
-        if(!selectable) return;
+        if (!selectable) return;
         const rowId = row.id;
         const selectedIndex = selected.indexOf(rowId);
         let newSelected = [];
