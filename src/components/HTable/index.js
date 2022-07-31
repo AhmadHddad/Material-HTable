@@ -1,2 +1,3 @@
 
-module.exports = require("./HTable");
+export * from "./HTable";
+export { default } from "./HTable";

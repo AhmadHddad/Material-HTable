@@ -19,14 +19,12 @@ import {
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import { conditionalReturn, returnObjFromFunc, toArray, toObject } from "../../utils";
-import THead from "components/HTableHead";
-import HTEmptyView from "components/HTableEmptyView";
-import HTLoadingView from "components/HTableLoadingView";
-import useHTableStyle from "./hTableStyle";
-import TRow from "components/HTableRow";
-import SBar from "components/SearchBar";
+import THead from "../HTableHead";
+import HTEmptyView from "../HTableEmptyView";
+import HTLoadingView from "../HTableLoadingView";
+import TRow from "../HTableRow";
+import SBar from "../SearchBar";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 

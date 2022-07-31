@@ -1,5 +1,5 @@
 import React from 'react';
-import { returnObjFromFunc, toObject } from 'utils';
+import { returnObjFromFunc, toObject } from '../../utils';
 
 
 export default function SearchBar({ searchOptions, color, searchText, setSearchTextValue, components }) {

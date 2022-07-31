@@ -1,2 +1,3 @@
 
-module.exports = require("./HTableEmptyView");
+export * from "./HTableEmptyView";
+export { default } from "./HTableEmptyView";

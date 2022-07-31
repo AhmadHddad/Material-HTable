@@ -5,7 +5,7 @@ import {
     TableCellProps,
     TableRowProps
 } from "@mui/material";
-import {IColor, IHComponents, HTableId} from "components/HTable";
+import {IColor, IHComponents, HTableId} from "../HTable";
 import {MouseEventHandler} from "react";
 
 export type IHTableCollapseRow = {

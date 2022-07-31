@@ -1,4 +1,4 @@
-import {IHComponents} from "components/HTable";
+import {IHComponents} from "../HTable";
 
 export type HTableEmptyViewProps = {
     emptyViewText: string;

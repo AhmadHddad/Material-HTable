@@ -1,6 +1,6 @@
 import {IconButtonProps, TextFieldProps} from "@mui/material";
 import {GridProps} from "@mui/system";
-import {IColor, IHComponents} from "components/HTable";
+import {IColor, IHComponents} from "../HTable";
 
 export type SearchBarProps = {
     searchOptions?: {

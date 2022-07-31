@@ -1,4 +1,4 @@
-import {IHComponents} from "components/HTable";
+import {IHComponents} from "../HTable";
 
 declare const HTableLoadingView: (props: {components: IHComponents}) => JSX.Element;
 

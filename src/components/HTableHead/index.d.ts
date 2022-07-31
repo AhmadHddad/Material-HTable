@@ -6,7 +6,7 @@ import {
     TableSortLabelProps
 } from "@mui/material";
 import {SwitchBaseProps} from "@mui/material/internal/SwitchBase";
-import {IColor, IHComponents, HTableId} from "components/HTable";
+import {IColor, IHComponents, HTableId} from "../HTable";
 
 export type IHTableHeadCell = {
     id: HTableId;

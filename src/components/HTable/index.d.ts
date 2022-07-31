@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import {SwitchBaseProps} from "@mui/material/internal/SwitchBase";
 import {ClassNameMap} from "@mui/styles";
-import {IHTableHeadCell, ISelectAllOptions} from "components/HTableHead";
-import {ICollapseOptions, IHTableRow} from "components/HTableRow";
-import { MouseEventHandler } from "react";
+import {IHTableHeadCell, ISelectAllOptions} from "../HTableHead";
+import {ICollapseOptions, IHTableRow} from "../HTableRow";
+import {ChangeEvent, MouseEventHandler} from "react";
 import {allComponents} from "./HTable";
 
 export type HTableId = string | number;
@@ -62,7 +62,7 @@ export interface HTableProps {
     onSort?: (headCellId: HTableId) => void;
     orderBy?: HTableId;
     order?: "asc" | "desc";
-    onSelectAllClick?: SwitchBaseProps["onChange"];
+    onSelectAllClick?: (event: ChangeEvent<HTMLInputElement>, selectedIds: HTableId[]) => void;
     onRowSelected?: (event: MouseEventHandler | undefined, row: IHTableRow) => void;
     selectable?: boolean;
     rows: IHTableRow[];
