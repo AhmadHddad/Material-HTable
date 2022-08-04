@@ -1,5 +1,4 @@
-import HTable from 'components/HTable/HTable';
+import HTable from './components/HTable';
 
 
 export default HTable;
-export * from "./components";
