@@ -1,8 +1,9 @@
 import React from 'react';
+import { ISearchOptions, SearchBarProps } from '.';
 import { returnObjFromFunc, toObject } from '../../utils';
 
 
-export default function SearchBar({ searchOptions, color, searchText, setSearchTextValue, components }: any) {
+export default function SearchBar({ searchOptions, color, searchText, setSearchTextValue, components }: SearchBarProps) {
     const { SearchIcon, Grid, TextField, IconButton, ClearIcon } = components;
     const {
         searchInputProps,
@@ -12,7 +13,7 @@ export default function SearchBar({ searchOptions, color, searchText, setSearchT
         searchBtnProps,
         onClearSearch,
         onSearchClick
-    } = toObject(searchOptions);
+    } = toObject(searchOptions) as ISearchOptions;
 
     return (
         <React.Fragment>
@@ -34,7 +35,7 @@ export default function SearchBar({ searchOptions, color, searchText, setSearchT
                         variant="standard"
                         placeholder={searchPlaceholder || "Search"}
                         color={color}
-                        onChange={(e: any) => setSearchTextValue(e.target.value)}
+                        onChange={(e) => setSearchTextValue(e.target.value)}
                         InputProps={{
                             startAdornment: (
                                 <IconButton

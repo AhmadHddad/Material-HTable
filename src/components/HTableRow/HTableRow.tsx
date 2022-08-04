@@ -1,6 +1,11 @@
-import { IconButton } from '@mui/material';
+import { IconButton, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import * as React from 'react';
+import {
+  HTableRowProps,
+  ICollapseOptions,
+  IRowCell,
+} from '.';
 import {
   callFuncOrReturn,
   conditionalReturn,
@@ -8,8 +13,9 @@ import {
   returnObjFromFunc,
   toObject,
 } from '../../utils';
+import { IHComponents } from '../HTable';
 
-const useStyle = makeStyles((_: any) => ({
+const useStyle = makeStyles((_: Theme) => ({
   collapseRow: {
     padding: '0 !important',
   },
@@ -25,7 +31,7 @@ export default function HTableRow({
   collapseOptions,
   selectOptoins,
   isRowSelected,
-}: any) {
+}: HTableRowProps) {
   const classes = useStyle();
   const {
     Checkbox,
@@ -34,7 +40,7 @@ export default function HTableRow({
     TableRow,
     KeyboardArrowUpIcon,
     KeyboardArrowDownIcon,
-  } = components;
+  } = components as IHComponents;
   const {
     collapseDefaultState,
     onOpen,
@@ -43,12 +49,13 @@ export default function HTableRow({
     arrowDownKeysProps,
     arrowUpKeysProps,
     collapseBtnTableCellProps,
-  } = returnObjFromFunc(collapseOptions, row);
+  } = returnObjFromFunc(collapseOptions, row) as ICollapseOptions;
+
   const { checkboxProps, checkboxTableCellProps } = toObject(selectOptoins);
   const { id, cells, collapseRow, props } = toObject(row);
   const [open, setOpen] = React.useState(!!collapseDefaultState);
 
-  function onCollapseOpen(e: any) {
+  function onCollapseOpen(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
     e.stopPropagation();
     onOpen ? onOpen(e, id, row) : setOpen(!open);
   }
@@ -57,7 +64,7 @@ export default function HTableRow({
   const labelId = `enhanced-table-checkbox-${index}`;
 
   const collapsable = !isNullOrUndefined(collapseRow);
-  const collapseComponent = collapseRow.component || collapseRow;
+  const collapseComponent = collapseRow?.component || collapseRow;
   return (
     <React.Fragment>
       <TableRow
@@ -67,11 +74,11 @@ export default function HTableRow({
         key={id}
         id={id}
         selected={isRowSelected}
-        onClick={(event: any) => onRowClicked(event, row)}
+        onClick={(event: any) => onRowClicked?.(event, row)}
         {...returnObjFromFunc(props, row)}
       >
         {conditionalReturn(
-          selectable,
+          Boolean(selectable),
           <TableCell
             padding="checkbox"
             {...returnObjFromFunc(checkboxTableCellProps, row)}
@@ -86,11 +93,11 @@ export default function HTableRow({
             />
           </TableCell>
         )}
-        {cells?.map((cell: any, i: any) => {
-          const component = cell.component || cell;
+        {cells?.map((cell: IRowCell, i: number) => {
+          const component = cell?.component || cell;
           return (
             <TableCell
-              key={cell.id || i}
+              key={cell?.id || i}
               component="th"
               scope="row"
               padding={selectable ? 'none' : 'normal'}

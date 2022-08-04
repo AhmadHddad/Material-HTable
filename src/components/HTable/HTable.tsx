@@ -1,5 +1,4 @@
 import * as React from 'react';
-import 'react-app-polyfill/ie11';
 import {
   TableContainer as MTableContainer,
   TablePagination as MTablePagination,
@@ -19,10 +18,8 @@ import {
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
-import PropTypes from 'prop-types';
 import {
   conditionalReturn,
-  returnObjFromFunc,
   toArray,
   toObject,
   isNullOrUndefined,
@@ -31,11 +28,17 @@ import {
 import THead from '../HTableHead';
 import HTEmptyView from '../HTableEmptyView';
 import HTLoadingView from '../HTableLoadingView';
-import TRow from '../HTableRow';
+import TRow, { IHTableRow } from '../HTableRow';
 import SBar from '../SearchBar';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import useHTableStyle from './hTableStyle';
+import {
+  HTableId,
+  HTableProps,
+  IHComponents,
+  IHTablePaginationOpetions,
+} from '.';
 
 export const allComponents = {
   Table: MTalbe,
@@ -62,7 +65,7 @@ export const allComponents = {
   Collapse,
   Checkbox: MCheckbox,
   TableSortLabel: MTableSortLabel,
-};
+} as const;
 
 function HTable({
   heads,
@@ -90,13 +93,14 @@ function HTable({
   order,
   onSelectAllClick,
   onRowSelected,
-}: any) {
-  const props = arguments[0];
+}: HTableProps) {
+  const props = arguments[0] as HTableProps;
   const classes = useHTableStyle(props);
 
   const { defaultSelectedIds } = toObject(selectOptoins);
   const { defaultSearchText } = toObject(searchOptions);
   const components = Object.assign(allComponents, props.components);
+
   const {
     Card,
     SearchBar,
@@ -108,7 +112,7 @@ function HTable({
     Table,
     TableBody,
     TablePagination,
-  } = components;
+  } = components as IHComponents;
 
   const {
     rowsPerPageOptions,
@@ -119,7 +123,7 @@ function HTable({
     onPageChange,
     component: paginationComponent,
     paginationProps,
-  } = toObject(paginationOptions);
+  } = toObject(paginationOptions) as IHTablePaginationOpetions;
 
   let updatedCollapseOptions = toObject(collapseOptions);
 
@@ -133,22 +137,29 @@ function HTable({
 
   const totalCount = totalItems ?? rows?.length ?? 0;
 
-  const handleSelectAllClick = (event: any) => {
-    let updatedSelected = [];
+  const handleSelectAllClick = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    let updatedSelected: HTableId[] = [];
 
     if (event.target.checked) {
-      updatedSelected = rows.map((n: any) => n.id);
+      updatedSelected = rows.map((n: IHTableRow) => n.id);
     }
 
     setSelected(updatedSelected);
-    onSelectAllClick?.(event, updatedSelected);
+    onSelectAllClick?.(event, checked, updatedSelected);
   };
 
-  const handleClick = (event: any, row: any) => {
+  const handleClick = (
+    event: React.MouseEvent<Element, MouseEvent>,
+    row: IHTableRow
+  ) => {
     if (!selectable) return;
+
     const rowId = row.id;
     const selectedIndex = selected.indexOf(rowId);
-    let newSelected: any = [];
+    let newSelected: HTableId[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, rowId);
@@ -168,10 +179,10 @@ function HTable({
   };
 
   const searchBar = conditionalReturn(
-    searchable,
+    Boolean(searchable),
     <SearchBar
       components={components}
-      searchOptions={setSearchTextValue}
+      searchOptions={searchOptions}
       searchText={searchText}
       setSearchTextValue={setSearchTextValue}
     />
@@ -192,28 +203,28 @@ function HTable({
     );
   };
 
-  const isSelected = (id: any) => selected.indexOf(id) !== -1;
+  const isSelected = (id: HTableId) => selected.indexOf(id) !== -1;
 
-  function onRef(ref: any) {
+  function onRef(ref: HTMLElement | null) {
     disabled &&
       ref &&
-      ref.addEventListener('keydown', (event: any) => {
+      ref.addEventListener('keydown', event => {
         event.preventDefault();
       });
   }
 
   const hasCollapseRow = rows?.some(
-    (r: any) => !isNullOrUndefined(r.collapseRow)
+    (r: IHTableRow) => !isNullOrUndefined(r.collapseRow)
   );
   const allHeads =
     (hasCollapseRow
       ? heads?.concat?.({
           id: '-1',
-          component: '',
+          component: <div />,
         })
       : heads) || [];
 
-  const isOpen = React.useCallback((rowId: any) => rowId === collapsapedRowId, [
+  const isOpen = React.useCallback((rowId: HTableId) => rowId === collapsapedRowId, [
     collapsapedRowId,
   ]);
 
@@ -222,7 +233,7 @@ function HTable({
       ...updatedCollapseOptions,
       ...{
         isOpen,
-        onOpen: (_: any, id: any) => {
+        onOpen: (_: any, id: HTableId) => {
           setCollapsedRowId(id);
         },
       },
@@ -233,7 +244,7 @@ function HTable({
     <TableContainer
       ref={onRef}
       component={Card}
-      {...returnObjFromFunc(tableContainerProps)}
+      {...toObject(tableContainerProps)}
       className={classNames(
         { [classes.disabled]: disabled },
         classes.tableContainer,
@@ -261,7 +272,7 @@ function HTable({
               {...toObject(headOptions)}
             />
             <TableBody {...toObject(tableBodyprops)}>
-              {rows.map((row: any, index: any) => {
+              {rows.map((row: IHTableRow, index: number) => {
                 const isRowSelected = isSelected(row.id);
                 return (
                   <HTableRow
@@ -289,10 +300,13 @@ function HTable({
           count={totalCount}
           rowsPerPage={rowsPerPage}
           page={pageNumber}
-          onPageChange={(...args: any) => onPageChange(...args, searchText)}
-          onRowsPerPageChange={(...args: any) =>
-            onRowsPerPageChange(...args, searchText)
-          }
+          onPageChange={(
+            event: React.MouseEvent<HTMLButtonElement> | null,
+            page: number
+          ) => onPageChange?.(event, page, searchText)}
+          onRowsPerPageChange={(
+            e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+          ) => onRowsPerPageChange?.(e, searchText)}
           {...toObject(paginationProps)}
         />
       )}
@@ -329,147 +343,6 @@ HTable.defaultProps = {
       },
     },
   ],
-};
-
-HTable.propTypes = {
-  heads: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      align: PropTypes.oneOf(['inherit', 'left', 'center', 'right', 'justify']),
-      props: PropTypes.object,
-      sortLabelProps: PropTypes.object,
-      component: PropTypes.any,
-    })
-  ),
-  emptyViewText: PropTypes.string,
-  selectOptoins: PropTypes.shape({
-    defaultSelectedIds: PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-    ),
-  }),
-  tableBodyprops: PropTypes.object,
-  sortable: PropTypes.bool,
-  collapseOptions: PropTypes.shape({
-    collapseDefaultState: PropTypes.bool,
-    onOpen: PropTypes.func,
-    closeCollapsedRowWhenOtherOpen: PropTypes.bool,
-    isOpen: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
-    defaultCollapsedRowId: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    collapseBtnProps: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    arrowDownKeysProps: PropTypes.object,
-    arrowUpKeysProps: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  }),
-  tableProps: PropTypes.object,
-  color: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.oneOf([
-      'primary',
-      'secondary',
-      'error',
-      'info',
-      'success',
-      'warning',
-      'default',
-    ]),
-  ]),
-  orderBy: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  order: PropTypes.oneOf(['asc', 'desc']),
-  onSelectAllClick: PropTypes.func,
-  onSort: PropTypes.func,
-  selectable: PropTypes.bool,
-  rows: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      cells: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-          component: PropTypes.any,
-          props: PropTypes.object,
-        })
-      ),
-      props: PropTypes.object,
-      collapseRow: PropTypes.shape({
-        component: PropTypes.any,
-        rowPorps: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-        cellProps: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-      }),
-    })
-  ),
-  isLoading: PropTypes.bool,
-  disabled: PropTypes.bool,
-  tableContainerProps: PropTypes.object,
-  isPaginate: PropTypes.bool,
-  searchable: PropTypes.bool,
-  emptyView: PropTypes.element,
-  components: PropTypes.shape({
-    Table: PropTypes.element,
-    Card: PropTypes.element,
-    TableContainer: PropTypes.element,
-    TablePagination: PropTypes.element,
-    TableBody: PropTypes.element,
-    TextField: PropTypes.element,
-    IconButton: PropTypes.element,
-    TableRow: PropTypes.element,
-    KeyboardArrowUpIcon: PropTypes.element,
-    HTableHead: PropTypes.element,
-    HTableRow: PropTypes.element,
-    HTableEmptyView: PropTypes.element,
-    KeyboardArrowDownIcon: PropTypes.element,
-    TableHead: PropTypes.element,
-    HTableLoadingView: PropTypes.element,
-    TableCell: PropTypes.element,
-    Grid: PropTypes.element,
-    SearchIcon: PropTypes.element,
-    CircularProgress: PropTypes.element,
-    ClearIcon: PropTypes.element,
-    SearchBar: PropTypes.element,
-    Collapse: PropTypes.element,
-    Checkbox: PropTypes.element,
-    TableSortLabel: PropTypes.element,
-  }),
-  loadingView: PropTypes.element,
-  searchOptions: PropTypes.objectOf(
-    PropTypes.shape({
-      defaultSearchText: PropTypes.string,
-      searchInputProps: PropTypes.object,
-      searchInputContainerProps: PropTypes.object,
-      onClearSearch: PropTypes.func,
-      onSearchClick: PropTypes.func,
-    })
-  ),
-  paginationOptions: PropTypes.objectOf(
-    PropTypes.shape({
-      totalItems: PropTypes.number,
-      pageNumber: PropTypes.number,
-      onRowsPerPageChange: PropTypes.func,
-      rowsPerPage: PropTypes.number,
-      rowsPerPageOptions: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.number),
-        PropTypes.arrayOf(
-          PropTypes.objectOf(
-            PropTypes.shape({
-              value: PropTypes.number,
-              label: PropTypes.string,
-            })
-          )
-        ),
-      ]),
-      classes: PropTypes.object,
-      component: PropTypes.any,
-      onPageChange: PropTypes.func,
-    })
-  ),
-  headOptions: PropTypes.shape({
-    headRowProps: PropTypes.object,
-    selectAllOptions: PropTypes.shape({
-      selectAllCheckboxProps: PropTypes.object,
-      selectAllCellProps: PropTypes.object,
-    }),
-    headProps: PropTypes.object,
-  }),
 };
 
 export default HTable;

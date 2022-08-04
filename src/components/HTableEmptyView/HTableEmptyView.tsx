@@ -1,6 +1,7 @@
 import React from "react";
+import { HTableEmptyViewProps } from ".";
 
-export default function HTableEmptyView({ emptyViewText, components }: any) {
+export default function HTableEmptyView({ emptyViewText, components }: HTableEmptyViewProps) {
   const { Grid } = components;
 
   return (

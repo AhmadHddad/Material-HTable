@@ -1,3 +1,4 @@
+
 import {IHComponents} from "../HTable";
 
 export type HTableEmptyViewProps = {
@@ -5,6 +6,6 @@ export type HTableEmptyViewProps = {
     components: IHComponents;
 };
 
-declare const HTableEmptyView: (props: HTableEmptyViewProps) => JSX.Element;
 
-export default HTableEmptyView;
+export * from "./HTableEmptyView";
+export { default } from "./HTableEmptyView";
