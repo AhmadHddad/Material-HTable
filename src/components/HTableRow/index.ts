@@ -29,11 +29,11 @@ export type IHTableRow = {
 };
 
 export type ICollapseOptions = {
-  collapseDefaultState: boolean;
+  collapseDefaultState?: boolean;
   onOpen?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, id: HTableId, row: IHTableRow) => void;
   isOpen?: ((id: HTableId) => boolean) | boolean;
   collapseBtnProps?: IconButtonProps | ((row: IHTableRow) => IconButtonProps);
-  closeCollapsedRowWhenOtherOpen: boolean;
+  closeCollapsedRowWhenOtherOpen?: boolean;
   arrowDownKeysProps?: SvgIconProps;
   defaultCollapsedRowId?: HTableId;
   arrowUpKeysProps?:
@@ -64,6 +64,7 @@ export interface HTableRowProps {
   components: IHComponents;
   color?: IColor;
   selectable?: boolean;
+  isCollapsed?: boolean;
   index: HTableId;
   collapseOptions?:
     | ICollapseOptions
