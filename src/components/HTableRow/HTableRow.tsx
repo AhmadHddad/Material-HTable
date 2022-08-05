@@ -1,11 +1,7 @@
 import { IconButton, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import * as React from 'react';
-import {
-  HTableRowProps,
-  ICollapseOptions,
-  IRowCell,
-} from '.';
+import { HTableRowProps, ICollapseOptions, IRowCell } from '.';
 import {
   callFuncOrReturn,
   conditionalReturn,
@@ -28,6 +24,7 @@ export default function HTableRow({
   onRowClicked,
   selectable,
   index,
+  isCollapsed,
   collapseOptions,
   selectOptoins,
   isRowSelected,
@@ -60,7 +57,9 @@ export default function HTableRow({
     onOpen ? onOpen(e, id, row) : setOpen(!open);
   }
 
-  const isCollapseOpen = Boolean(callFuncOrReturn(isOpen) || open);
+  const isCollapseOpen = Boolean(
+    callFuncOrReturn(isOpen) || isCollapsed || open
+  );
   const labelId = `enhanced-table-checkbox-${index}`;
 
   const collapsable = !isNullOrUndefined(collapseRow);
