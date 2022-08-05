@@ -31,10 +31,11 @@ import HTLoadingView from '../HTableLoadingView';
 import TRow, { IHTableRow } from '../HTableRow';
 import SBar from '../SearchBar';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import './styles.module.css';
 import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import useHTableStyle from './hTableStyle';
 import {
-  HTableId,
+  HTableId as IHTableId,
   HTableProps,
   IHComponents,
   IHTablePaginationOpetions,
@@ -127,11 +128,13 @@ function HTable({
 
   let updatedCollapseOptions = toObject(collapseOptions);
 
-  const [searchText, setSearchTextValue] = React.useState(
+  const [searchText, setSearchTextValue] = React.useState<string>(
     defaultSearchText || ''
   );
-  const [selected, setSelected] = React.useState(toArray(defaultSelectedIds));
-  const [collapsapedRowId, setCollapsedRowId] = React.useState(
+  const [selected, setSelected] = React.useState<IHTableId[]>(
+    toArray(defaultSelectedIds)
+  );
+  const [collapsapedRowId, setCollapsedRowId] = React.useState<IHTableId>(
     updatedCollapseOptions.defaultCollapsedRowId
   );
 
@@ -141,7 +144,7 @@ function HTable({
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
-    let updatedSelected: HTableId[] = [];
+    let updatedSelected: IHTableId[] = [];
 
     if (event.target.checked) {
       updatedSelected = rows.map((n: IHTableRow) => n.id);
@@ -159,7 +162,7 @@ function HTable({
 
     const rowId = row.id;
     const selectedIndex = selected.indexOf(rowId);
-    let newSelected: HTableId[] = [];
+    let newSelected: IHTableId[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, rowId);
@@ -203,7 +206,7 @@ function HTable({
     );
   };
 
-  const isSelected = (id: HTableId) => selected.indexOf(id) !== -1;
+  const isSelected = (id: IHTableId) => selected.indexOf(id) !== -1;
 
   function onRef(ref: HTMLElement | null) {
     disabled &&
@@ -224,17 +227,12 @@ function HTable({
         })
       : heads) || [];
 
-  const isOpen = React.useCallback((rowId: HTableId) => rowId === collapsapedRowId, [
-    collapsapedRowId,
-  ]);
-
   if (updatedCollapseOptions.closeCollapsedRowWhenOtherOpen) {
     updatedCollapseOptions = {
       ...updatedCollapseOptions,
       ...{
-        isOpen,
-        onOpen: (_: any, id: HTableId) => {
-          setCollapsedRowId(id);
+        onOpen: (_: any, id: IHTableId) => {
+          setCollapsedRowId(prevId => (prevId === id ? '' : id));
         },
       },
     };
@@ -278,6 +276,7 @@ function HTable({
                   <HTableRow
                     components={components}
                     selectOptoins={selectOptoins}
+                    isCollapsed={row.id === collapsapedRowId}
                     collapseOptions={updatedCollapseOptions}
                     color={color}
                     selectable={selectable}
@@ -330,10 +329,23 @@ HTable.defaultProps = {
   ],
   rows: [
     {
-      id: 1,
+      id: 11,
       cells: [
         { id: 'cellId1', component: 'Row#1Cell1', props: {} },
         { id: 'cellId2', component: 'Row#1Cell2', props: {} },
+      ],
+      props: {},
+      collapseRow: {
+        component: <div>Collapse Row</div>,
+        rowPorps: {},
+        cellProps: {},
+      },
+    },
+    {
+      id: 22,
+      cells: [
+        { id: 'cellId3', component: 'Row#2Cell1', props: {} },
+        { id: 'cellId4', component: 'Row#2Cell2', props: {} },
       ],
       props: {},
       collapseRow: {
