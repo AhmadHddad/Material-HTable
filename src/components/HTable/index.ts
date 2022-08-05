@@ -55,14 +55,14 @@ export type IHTablePaginationOpetions = {
 
 export interface HTableProps {
   heads: IHTableHeadCell[];
-  components: IHComponents;
-  emptyViewText: string;
+  components?: IHComponents;
+  emptyViewText?: string;
   selectOptoins?: { defaultSelectedIds?: HTableId[] } & ISelectionOptions;
-  tableBodyprops: TableBodyProps;
-  sortable: boolean;
-  collapseOptions: ICollapseOptions;
-  tableProps: TableProps;
-  color: IColor;
+  tableBodyprops?: TableBodyProps;
+  sortable?: boolean;
+  collapseOptions?: ICollapseOptions;
+  tableProps?: TableProps;
+  color?: IColor;
   onSort?: (headCellId: HTableId) => void;
   orderBy?: HTableId;
   order?: 'asc' | 'desc';
