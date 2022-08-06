@@ -1,10 +1,10 @@
 import React from 'react';
-import { IHComponents } from '../HTable';
+import { IHTableComponents } from '../HTable';
 
 export default function HTableLoadingView({
   components,
 }: {
-  components: IHComponents;
+  components: IHTableComponents;
 }) {
   const { CircularProgress, Grid } = components;
   return (

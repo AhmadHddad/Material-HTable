@@ -1,7 +1,7 @@
 import { TableCell } from '@mui/material';
 import { conditionalReturn, returnObjFromFunc, toObject } from '../../utils';
 import React from 'react';
-import { HTableHeadProps, IHTableHeadCell, ISelectAllOptions } from '.';
+import { HTableHeadProps, IHTableHeadCell, IHtableSelectAllOptions } from '.';
 
 export default function HTableHead({
   color,
@@ -22,7 +22,7 @@ export default function HTableHead({
   const { Checkbox, TableHead, TableRow, TableSortLabel } = components;
   const { selectAllCheckboxProps, selectAllCellProps } = toObject(
     selectAllOptions
-  ) as ISelectAllOptions;
+  ) as IHtableSelectAllOptions;
 
   return (
     <TableHead {...toObject(headProps)}>

@@ -5,7 +5,7 @@ import {
   TableCellProps,
   TableRowProps,
 } from '@mui/material';
-import { IColor, IHComponents, HTableId } from '../HTable';
+import { IColor, IHTableComponents, HTableId } from '../HTable';
 
 export type IHTableCollapseRow = {
   component:  any;
@@ -23,12 +23,12 @@ export type IHTableCollapseRow = {
 
 export type IHTableRow = {
   id: HTableId;
-  cells: IRowCell[] | JSX.Element[];
+  cells: IHTableRowCell[] | JSX.Element[];
   props?: TableRowProps | ((thisRow: IHTableRow) => TableRowProps);
   collapseRow?: IHTableCollapseRow | JSX.Element;
 };
 
-export type ICollapseOptions = {
+export type IHTableCollapseOptions = {
   collapseDefaultState?: boolean;
   onOpen?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, id: HTableId, row: IHTableRow) => void;
   isOpen?: ((id: HTableId) => boolean) | boolean;
@@ -50,7 +50,7 @@ export type ICollapseOptions = {
     | ((row: IHTableRow) => TableCellProps);
 };
 
-export type ISelectionOptions = {
+export type IHTableSelectionOptions = {
   checkboxProps?: CheckboxProps | ((row: IHTableRow) => CheckboxProps);
   checkboxTableCellProps?:
     | TableCellProps
@@ -61,23 +61,23 @@ export interface HTableRowProps {
   row: IHTableRow;
   isRowSelected?: boolean;
   onRowClicked?: (event: React.MouseEvent, row: IHTableRow) => void;
-  components: IHComponents;
+  components: IHTableComponents;
   color?: IColor;
   selectable?: boolean;
   isCollapsed?: boolean;
   index: HTableId;
   collapseOptions?:
-    | ICollapseOptions
-    | ((thisRow: IHTableRow) => ICollapseOptions);
-  selectOptoins?: ISelectionOptions;
+    | IHTableCollapseOptions
+    | ((thisRow: IHTableRow) => IHTableCollapseOptions);
+  selectOptoins?: IHTableSelectionOptions;
 }
 
-export type IRowCell = {
+export type IHTableRowCell = {
   id: HTableId;
   component: JSX.Element | any;
   props?:
     | TableCellProps
-    | (({ row, cell }: { row: IHTableRow; cell: IRowCell }) => TableCellProps);
+    | (({ row, cell }: { row: IHTableRow; cell: IHTableRowCell }) => TableCellProps);
 };
 
 export * from './HTableRow';

@@ -1,6 +1,6 @@
 import { IconButtonProps, TextFieldProps } from '@mui/material';
 import { GridProps } from '@mui/system';
-import { IColor, IHComponents } from '../HTable';
+import { IColor, IHTableComponents } from '../HTable';
 
 export type ISearchOptions = {
   searchInputProps?: TextFieldProps;
@@ -12,13 +12,13 @@ export type ISearchOptions = {
   onSearchClick?: (searchText: string) => void;
 };
 
-export type SearchBarProps = {
+export type HTableSearchBarProps = {
   searchOptions?: ISearchOptions;
   color?: IColor;
   searchText: string;
   setSearchTextValue: (searchText: string) => void;
-  components: IHComponents;
+  components: IHTableComponents;
 };
 
-export * from './SearchBar';
-export { default } from './SearchBar';
+export * from './HTableSearchBar';
+export { default } from './HTableSearchBar';

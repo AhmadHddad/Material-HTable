@@ -1,7 +1,7 @@
 import { IconButton, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import * as React from 'react';
-import { HTableRowProps, ICollapseOptions, IRowCell } from '.';
+import { HTableRowProps, IHTableCollapseOptions, IHTableRowCell } from '.';
 import {
   callFuncOrReturn,
   conditionalReturn,
@@ -9,7 +9,7 @@ import {
   returnObjFromFunc,
   toObject,
 } from '../../utils';
-import { IHComponents } from '../HTable';
+import { IHTableComponents } from '../HTable';
 
 const useStyle = makeStyles((_: Theme) => ({
   collapseRow: {
@@ -37,7 +37,7 @@ export default function HTableRow({
     TableRow,
     KeyboardArrowUpIcon,
     KeyboardArrowDownIcon,
-  } = components as IHComponents;
+  } = components as IHTableComponents;
   const {
     collapseDefaultState,
     onOpen,
@@ -46,7 +46,7 @@ export default function HTableRow({
     arrowDownKeysProps,
     arrowUpKeysProps,
     collapseBtnTableCellProps,
-  } = returnObjFromFunc(collapseOptions, row) as ICollapseOptions;
+  } = returnObjFromFunc(collapseOptions, row) as IHTableCollapseOptions;
 
   const { checkboxProps, checkboxTableCellProps } = toObject(selectOptoins);
   const { id, cells, collapseRow, props } = toObject(row);
@@ -92,7 +92,7 @@ export default function HTableRow({
             />
           </TableCell>
         )}
-        {cells?.map((cell: IRowCell, i: number) => {
+        {cells?.map((cell: IHTableRowCell, i: number) => {
           const component = cell?.component || cell;
           return (
             <TableCell

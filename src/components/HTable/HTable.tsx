@@ -23,13 +23,12 @@ import {
   toArray,
   toObject,
   isNullOrUndefined,
-  classNames,
 } from '../../utils';
 import THead from '../HTableHead';
 import HTEmptyView from '../HTableEmptyView';
 import HTLoadingView from '../HTableLoadingView';
 import TRow, { IHTableRow } from '../HTableRow';
-import SBar from '../SearchBar';
+import SBar from '../HTableSearchBar';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import './styles.module.css';
 import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
@@ -37,9 +36,10 @@ import useHTableStyle from './hTableStyle';
 import {
   HTableId as IHTableId,
   HTableProps,
-  IHComponents,
+  IHTableComponents,
   IHTablePaginationOpetions,
 } from '.';
+import classNames from 'classnames'
 
 export const allComponents = {
   Table: MTalbe,
@@ -113,7 +113,7 @@ function HTable({
     Table,
     TableBody,
     TablePagination,
-  } = components as IHComponents;
+  } = components as IHTableComponents;
 
   const {
     rowsPerPageOptions,

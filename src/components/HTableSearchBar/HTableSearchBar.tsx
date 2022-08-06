@@ -1,9 +1,9 @@
 import React from 'react';
-import { ISearchOptions, SearchBarProps } from '.';
+import { ISearchOptions, HTableSearchBarProps } from '.';
 import { returnObjFromFunc, toObject } from '../../utils';
 
 
-export default function SearchBar({ searchOptions, color, searchText, setSearchTextValue, components }: SearchBarProps) {
+export default function HTableSearchBar({ searchOptions, color, searchText, setSearchTextValue, components }: HTableSearchBarProps) {
     const { SearchIcon, Grid, TextField, IconButton, ClearIcon } = components;
     const {
         searchInputProps,

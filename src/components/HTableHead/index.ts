@@ -5,7 +5,7 @@ import {
   TableRowProps,
   TableSortLabelProps,
 } from '@mui/material';
-import { IColor, IHComponents, HTableId } from '../HTable';
+import { IColor, IHTableComponents, HTableId } from '../HTable';
 
 export type IHTableHeadCell = {
   id: HTableId;
@@ -17,20 +17,20 @@ export type IHTableHeadCell = {
   props?: (thisCell: IHTableHeadCell) => TableCellProps | TableCellProps;
 };
 
-export type ISelectAllOptions = {
+export type IHtableSelectAllOptions = {
   selectAllCheckboxProps?: CheckboxProps;
   selectAllCellProps?: TableCellProps;
 };
 
 export type HTableHeadProps = {
-  components: IHComponents;
+  components: IHTableComponents;
   color?: IColor;
   heads: IHTableHeadCell[];
   numSelected?: number;
   headProps?: TableHeadProps;
   headRowProps?: TableRowProps;
   rowCount?: number;
-  selectAllOptions?: ISelectAllOptions;
+  selectAllOptions?: IHtableSelectAllOptions;
   onSelectAllClick?: (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean

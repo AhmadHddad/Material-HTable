@@ -9,8 +9,12 @@ import {
   TextFieldProps,
 } from '@mui/material';
 import { ClassNameMap } from '@mui/styles';
-import { IHTableHeadCell, ISelectAllOptions } from '../HTableHead';
-import { ICollapseOptions, IHTableRow, ISelectionOptions } from '../HTableRow';
+import { IHTableHeadCell, IHtableSelectAllOptions as IHTableSelectAllOptions } from '../HTableHead';
+import {
+  IHTableCollapseOptions,
+  IHTableRow,
+  IHTableSelectionOptions,
+} from '../HTableRow';
 import React from 'react';
 import { allComponents } from './HTable';
 
@@ -24,7 +28,7 @@ export type IColor =
   | 'warning'
   | 'default'
   | string;
-export type IHComponents = typeof allComponents;
+export type IHTableComponents = typeof allComponents;
 
 export type IHTableSearchOptions = {
   defaultSearchText?: string;
@@ -55,12 +59,12 @@ export type IHTablePaginationOpetions = {
 
 export interface HTableProps {
   heads: IHTableHeadCell[];
-  components?: IHComponents;
+  components?: IHTableComponents;
   emptyViewText?: string;
-  selectOptoins?: { defaultSelectedIds?: HTableId[] } & ISelectionOptions;
+  selectOptoins?: { defaultSelectedIds?: HTableId[] } & IHTableSelectionOptions;
   tableBodyprops?: TableBodyProps;
   sortable?: boolean;
-  collapseOptions?: ICollapseOptions;
+  collapseOptions?: IHTableCollapseOptions;
   tableProps?: TableProps;
   color?: IColor;
   onSort?: (headCellId: HTableId) => void;
@@ -85,10 +89,15 @@ export interface HTableProps {
   paginationOptions?: IHTablePaginationOpetions;
   headOptions?: {
     headRowProps?: TableRowProps;
-    selectAllOptions?: ISelectAllOptions;
+    selectAllOptions?: IHTableSelectAllOptions;
     headProps?: TableHeadProps;
   };
 }
 
 export * from './HTable';
+export * as HTableEmptyView from '../HTableEmptyView';
+export * as HTableHead from '../HTableHead';
+export * as HTableLoadingView from '../HTableLoadingView';
+export * as HTableRow from '../HTableRow';
+export * as HTableSearchBar from '../HTableSearchBar';
 export { default } from './HTable';
