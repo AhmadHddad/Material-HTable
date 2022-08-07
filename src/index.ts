@@ -12,7 +12,7 @@ export {
     HTableLoadingView,
     HTableRow,
     HTableSearchBar,
-} from './components/HTable/index'
+} from './components/HTable'
 export {
     HTableHeadProps,
     IHTableHeadCell,
@@ -21,5 +21,5 @@ export {
 export {
     HTableEmptyViewProps
 } from './components/HTableEmptyView'
-export { HTableRowProps, IHTableCollapseOptions, IHTableCollapseRow, IHTableRow, IHTableRowCell, IHTableSelectionOptions } from './components/HTableRow/index';
-export { HTableSearchBarProps } from './components/HTableSearchBar/index';
+export { HTableRowProps, IHTableCollapseOptions, IHTableCollapseRow, IHTableRow, IHTableRowCell, IHTableSelectionOptions } from './components/HTableRow';
+export { HTableSearchBarProps } from './components/HTableSearchBar';
