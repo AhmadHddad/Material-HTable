@@ -62,6 +62,7 @@ export interface HTableProps {
   heads: IHTableHeadCell[];
   components?: IHTableComponents;
   emptyViewText?: string;
+  dense?:boolean;
   rowOptions?:IHTableRowOptions;
   selectOptoins?: { defaultSelectedIds?: HTableId[] } & IHTableSelectionOptions;
   tableBodyprops?: TableBodyProps;

@@ -81,6 +81,7 @@ function HTable({
   tableContainerProps,
   tableBodyprops,
   sortable,
+  dense,
   pagination,
   collapseOptions,
   headOptions,
@@ -254,7 +255,7 @@ function HTable({
       ) : (
         <>
           {searchBar}
-          <Table {...toObject(tableProps)}>
+          <Table size={dense ? 'small' : 'medium'} {...toObject(tableProps)}>
             <HTableHead
               components={components}
               numSelected={selected?.length ?? 0}
