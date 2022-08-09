@@ -13,6 +13,7 @@ import { IHTableHeadCell, IHtableSelectAllOptions as IHTableSelectAllOptions } f
 import {
   IHTableCollapseOptions,
   IHTableRow,
+  IHTableRowOptions,
   IHTableSelectionOptions,
 } from '../HTableRow';
 import React from 'react';
@@ -61,6 +62,7 @@ export interface HTableProps {
   heads: IHTableHeadCell[];
   components?: IHTableComponents;
   emptyViewText?: string;
+  rowOptions?:IHTableRowOptions;
   selectOptoins?: { defaultSelectedIds?: HTableId[] } & IHTableSelectionOptions;
   tableBodyprops?: TableBodyProps;
   sortable?: boolean;
@@ -81,7 +83,7 @@ export interface HTableProps {
   isLoading?: boolean;
   disabled?: boolean;
   tableContainerProps?: TableContainerProps & { component: JSX.Element | any };
-  isPaginate?: boolean;
+  pagination?: boolean;
   searchable?: boolean;
   emptyView?: JSX.Element | any;
   loadingView?: JSX.Element | any;

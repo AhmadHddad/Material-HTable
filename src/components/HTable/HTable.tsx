@@ -39,7 +39,7 @@ import {
   IHTableComponents,
   IHTablePaginationOpetions,
 } from '.';
-import classNames from 'classnames'
+import classNames from 'classnames';
 
 export const allComponents = {
   Table: MTalbe,
@@ -74,13 +74,14 @@ function HTable({
   selectable,
   emptyViewText,
   selectOptoins,
+  rowOptions,
   rows,
   isLoading,
   disabled,
   tableContainerProps,
   tableBodyprops,
   sortable,
-  isPaginate,
+  pagination,
   collapseOptions,
   headOptions,
   searchable,
@@ -97,7 +98,6 @@ function HTable({
 }: HTableProps) {
   const props = arguments[0] as HTableProps;
   const classes = useHTableStyle(props);
-
   const { defaultSelectedIds } = toObject(selectOptoins);
   const { defaultSearchText } = toObject(searchOptions);
   const components = Object.assign(allComponents, props.components);
@@ -274,6 +274,7 @@ function HTable({
                 const isRowSelected = isSelected(row.id);
                 return (
                   <HTableRow
+                    rowOptions={rowOptions}
                     components={components}
                     selectOptoins={selectOptoins}
                     isCollapsed={row.id === collapsapedRowId}
@@ -292,7 +293,8 @@ function HTable({
           </Table>
         </>
       )}
-      {isPaginate && (
+      {conditionalReturn(
+        !!pagination,
         <TablePagination
           component={paginationComponent || 'div'}
           rowsPerPageOptions={rowsPerPageOptions}
