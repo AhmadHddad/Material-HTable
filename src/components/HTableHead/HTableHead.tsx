@@ -13,6 +13,7 @@ export default function HTableHead({
   rowCount = 0,
   selectAllOptions,
   onSelectAllClick,
+  dense,
   sortable,
   onSort,
   orderBy,
@@ -29,7 +30,10 @@ export default function HTableHead({
       <TableRow {...toObject(headRowProps)}>
         {conditionalReturn(
           Boolean(selectable),
-          <TableCell padding="checkbox" {...toObject(selectAllCellProps)}>
+          <TableCell
+            padding={dense ? 'none' : selectable ? 'checkbox' : 'normal'}
+            {...toObject(selectAllCellProps)}
+          >
             <Checkbox
               color={color}
               indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -47,7 +51,7 @@ export default function HTableHead({
             <TableCell
               key={id}
               align={headCell?.align}
-              padding={selectable ? 'none' : 'normal'}
+              padding={dense ? 'none' : selectable ? 'checkbox' : 'normal'}
               sortDirection={orderBy === id ? order : false}
               {...returnObjFromFunc(headCell.props, headCell)}
             >

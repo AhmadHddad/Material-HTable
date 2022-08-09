@@ -66,6 +66,7 @@ export type IHTableRowOptions ={
 export interface HTableRowProps {
   row: IHTableRow;
   rowOptions?:IHTableRowOptions;
+  dense?:boolean;
   isRowSelected?: boolean;
   onRowClicked?: (event: React.MouseEvent, row: IHTableRow) => void;
   components: IHTableComponents;

@@ -31,6 +31,7 @@ export type HTableHeadProps = {
   headProps?: TableHeadProps;
   headRowProps?: TableRowProps;
   rowCount?: number;
+  dense?: boolean;
   selectAllOptions?: IHtableSelectAllOptions;
   onSelectAllClick?: (
     event: React.ChangeEvent<HTMLInputElement>,

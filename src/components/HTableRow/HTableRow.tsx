@@ -27,6 +27,7 @@ export default function HTableRow({
   rowOptions,
   isCollapsed,
   collapseOptions,
+  dense,
   selectOptoins,
   isRowSelected,
 }: HTableRowProps) {
@@ -81,7 +82,7 @@ export default function HTableRow({
         {conditionalReturn(
           Boolean(selectable),
           <TableCell
-            padding="checkbox"
+            padding={dense ? 'none' : selectable ? 'checkbox' : 'normal'}
             {...returnObjFromFunc(checkboxTableCellProps, row)}
           >
             <Checkbox
@@ -101,7 +102,7 @@ export default function HTableRow({
               key={cell?.id || i}
               component="th"
               scope="row"
-              padding={selectable ? 'none' : 'normal'}
+              padding={dense ? 'none' : selectable ? 'checkbox' : 'normal'}
               {...returnObjFromFunc(rowOptions?.cellProps, { row, cell })}
               {...returnObjFromFunc(cell?.props, { row, cell })}
             >
@@ -112,8 +113,8 @@ export default function HTableRow({
         {conditionalReturn(
           collapsable,
           <TableCell
-            padding="none"
-            {...returnObjFromFunc(collapseBtnTableCellProps, row)}
+          padding={dense ? 'none' : selectable ? 'checkbox' : 'normal'}
+          {...returnObjFromFunc(collapseBtnTableCellProps, row)}
           >
             <IconButton
               aria-label="expand row"
