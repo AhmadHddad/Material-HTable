@@ -24,6 +24,7 @@ export default function HTableRow({
   onRowClicked,
   selectable,
   index,
+  rowOptions,
   isCollapsed,
   collapseOptions,
   selectOptoins,
@@ -74,6 +75,7 @@ export default function HTableRow({
         id={id}
         selected={isRowSelected}
         onClick={(event: any) => onRowClicked?.(event, row)}
+        {...returnObjFromFunc(rowOptions?.rowProps, row)}
         {...returnObjFromFunc(props, row)}
       >
         {conditionalReturn(
@@ -100,6 +102,7 @@ export default function HTableRow({
               component="th"
               scope="row"
               padding={selectable ? 'none' : 'normal'}
+              {...returnObjFromFunc(rowOptions?.cellProps, { row, cell })}
               {...returnObjFromFunc(cell?.props, { row, cell })}
             >
               {component}

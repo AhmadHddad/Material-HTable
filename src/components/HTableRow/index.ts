@@ -57,8 +57,15 @@ export type IHTableSelectionOptions = {
     | ((row: IHTableRow) => TableCellProps);
 };
 
+export type IHTableRowOptions ={
+  rowProps:TableRowProps | ((thisRow: IHTableRow) => TableRowProps);
+  cellProps:TableCellProps
+  | (({ row, cell }: { row: IHTableRow; cell: IHTableRowCell }) => TableCellProps);
+}
+
 export interface HTableRowProps {
   row: IHTableRow;
+  rowOptions?:IHTableRowOptions;
   isRowSelected?: boolean;
   onRowClicked?: (event: React.MouseEvent, row: IHTableRow) => void;
   components: IHTableComponents;
