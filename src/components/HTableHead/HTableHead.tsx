@@ -51,7 +51,7 @@ export default function HTableHead({
               sortDirection={orderBy === id ? order : false}
               {...returnObjFromFunc(headCell.props, headCell)}
             >
-              {sortable ? (
+              {headCell.sortable ?? sortable ? (
                 <TableSortLabel
                   color={color}
                   active={orderBy === id}

@@ -11,10 +11,11 @@ export type IHTableHeadCell = {
   id: HTableId;
   component: JSX.Element | any;
   align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
-  sortLabelProps?: (
-    thisCell: IHTableHeadCell
-  ) => TableSortLabelProps | TableSortLabelProps;
-  props?: (thisCell: IHTableHeadCell) => TableCellProps | TableCellProps;
+  sortLabelProps?:
+    | ((thisCell: IHTableHeadCell) => TableSortLabelProps)
+    | TableSortLabelProps;
+  props?: ((thisCell: IHTableHeadCell) => TableCellProps) | TableCellProps;
+  sortable?: ((thisCell: IHTableHeadCell) => boolean) | boolean;
 };
 
 export type IHtableSelectAllOptions = {
